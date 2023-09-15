@@ -1,13 +1,18 @@
 import { 
   ChangeEvent, 
   FormEvent, 
+  useReducer, 
   useState 
 } from 'react'
 
 import { 
   Steps,
-  Modal as Modals
+  Modal as Modals,
+  Space,
+  Spin
 } from 'antd';
+import { REDUCER_TYPE, reducer } from '../../state/reducer';
+import initState from '../../state/state';
 
 interface DataUser {
   name?: string;
@@ -25,8 +30,8 @@ interface DataUser {
 const Form = () => {
   const [counter, setCounter] = useState<number>(0);
   const [list, setList] = useState<DataUser>({});
-  const [loading, setLoading] = useState<boolean>(false)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [state, dispatch] = useReducer(reducer, initState)
 
   const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
     setList(() => ({...list, [event.target.name]: event.target.value }));
@@ -34,7 +39,11 @@ const Form = () => {
 
   const handleNext = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCounter(counter + 1);
+    dispatch({ type: REDUCER_TYPE.SET_LOADING_TRUE})
+    setTimeout(() => {
+      dispatch({ type: REDUCER_TYPE.SET_LOADING_FALSE})
+      setCounter(counter + 1);
+    }, 1000);
   }
 
   const handlePrev = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -44,7 +53,12 @@ const Form = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setModalOpen(true);
+    dispatch({ type: REDUCER_TYPE.SET_LOADING_TRUE})
+    setTimeout(() => {
+      dispatch({ type: REDUCER_TYPE.SET_LOADING_FALSE})
+      setModalOpen(true);
+    }, 1000);
+    
   }
 
   const handleOK = () => {
@@ -296,6 +310,13 @@ const Form = () => {
         <p>{list.zipCode}</p>
         <p>{list.username}</p>
       </Modals>
+      
+      {state.loading === true &&
+        <Space size="large">
+          <Spin size="large" />
+        </Space>
+      }
+
     </>
 
 
