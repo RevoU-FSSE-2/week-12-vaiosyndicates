@@ -292,6 +292,9 @@ const Form = () => {
         <p>{list.date}</p>
         <p>{list.street}</p>
         <p>{list.city}</p>
+        <p>{list.stateCode}</p>
+        <p>{list.zipCode}</p>
+        <p>{list.username}</p>
       </Modals>
     </>
 
