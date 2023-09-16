@@ -11,7 +11,11 @@ This simple registration form, using some tech stack like :
 - Vite
 - Tailwind CSS
 - ANT Design
+  
 
+## Deployment
+This project successfully deploy at <br>
+[Simple Form React](https://main--unique-conkies-cb3c54.netlify.app)
 
 ## Local Deployment
 
