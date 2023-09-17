@@ -1,47 +1,35 @@
 // import Table from '../../component/table';
+import {useState} from 'react';
 import Form from '../../component/form';
-
-// interface DataUser {
-//   name?: string;
-//   email?: string;
-//   gender?: 'L' | 'P';
-//   address?: string,
-
-// }
+import { 
+  Steps
+} from 'antd';
 
 
 const Home = () => {
-
-  //  const data:DataUser[] = [{
-  //   name: 'Sesil',
-  //   email: 'bca@co.id',
-  //   gender: 'P',
-  //   address: 'Kauman'
-  // }]
-
-  // const renderData = () => {
-  //   return(
-  //     data.map((v, index) => {
-  //       return (
-  //         <>
-  //           <tr key={index}>
-  //             <td>{v.name}</td>
-  //             <td>{v.email}</td>
-  //             <td>{v.gender}</td>
-  //             <td>{v.address}</td>
-  //           </tr>
-  //         </>
-  //       )
-  //     })
-  //   )
-  // }
+  const [page, setPage] = useState<number>(0)
 
 
   return (
     <>
       <div className="container mx-auto">
         <div className="min-h-screen flex flex-col gap-y-5 items-center bg-slate-300">
-          <Form />
+          <Steps
+            className='gap-y-10'
+            current={page}
+            items={[
+              {
+                title: 'Personal Information',
+              },
+              {
+                title: 'Address Information',
+              },
+              {
+                title: 'User Authentification'
+              },
+            ]}
+          />
+          <Form page= {page} setX= {setPage} />
         </div>
       </div>
     </>

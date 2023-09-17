@@ -2,11 +2,12 @@ import {
   ChangeEvent, 
   FormEvent, 
   useReducer, 
-  useState 
+  useState,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 
 import { 
-  Steps,
   Modal as Modals,
   Space,
   Spin
@@ -26,8 +27,13 @@ interface DataUser {
   password?: string;
 }
 
+interface Props {
+  page?: number | undefined;
+  setX:  Dispatch<SetStateAction<number>> | undefined;
+}
 
-const Form = () => {
+
+const Form = ({page, setX}: Props) => {
   const [counter, setCounter] = useState<number>(0);
   const [list, setList] = useState<DataUser>({});
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -43,12 +49,18 @@ const Form = () => {
     setTimeout(() => {
       dispatch({ type: REDUCER_TYPE.SET_LOADING_FALSE})
       setCounter(counter + 1);
+      if(page !== undefined && setX !== undefined) {
+        setX(page + 1)
+      }
     }, 1000);
   }
 
   const handlePrev = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     setCounter(counter - 1);
+    if(page !== undefined && setX !== undefined) {
+      setX(page - 1)
+    }
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -74,21 +86,6 @@ const Form = () => {
 
   return (
     <>
-        <Steps
-          className='gap-y-10'
-          current={counter}
-          items={[
-            {
-              title: 'Personal Information',
-            },
-            {
-              title: 'Address Information',
-            },
-            {
-              title: 'User Authentification'
-            },
-          ]}
-        />
       <form className="w-full max-w-sm" onSubmit={counter === 2 ? handleSubmit : handleNext}>
         {counter === 0 &&
           <>
@@ -101,7 +98,7 @@ const Form = () => {
               <div className="md:w-2/3">
                 <input
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                  name="fullname"
+                  name="name"
                   id="inline-full-name"
                   type="text"
                   value={list.name}
@@ -196,7 +193,7 @@ const Form = () => {
               <div className="md:w-2/3">
                 <input 
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" 
-                  name="state" 
+                  name="stateCode" 
                   id="inline-state" 
                   type="text" 
                   value={list.stateCode}
